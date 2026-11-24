@@ -111,7 +111,7 @@ if (typeof document !== 'undefined') {
         </fieldset>
         <div class="controls">
           ${current ? '<button class="secondary" id="back" type="button">Back</button>' : ''}
-          <button type="submit">${current === questions.length - 1 ? 'See my result' : 'Continue'}</button>
+          <button type="submit">Continue</button>
         </div>
       </form>`);
     const back = screen.querySelector('#back');
@@ -120,14 +120,13 @@ if (typeof document !== 'undefined') {
     form.onsubmit = event => {
       event.preventDefault();
       answers[current] = new FormData(form).get('choice');
-      if (current === questions.length - 1) renderResult(score(answers));
+      if (current === questions.length - 1) renderSignup(score(answers));
       else { current++; renderQuestion(); }
     };
   }
 
   function renderResult(tag) {
     const result = results[tag];
-    const endpoint = window.quizConfig?.webhookUrl;
     show(`
       <p class="progress">The pattern in your answers</p>
       <h1 id="heading" tabindex="-1">${result.name}</h1>
@@ -138,18 +137,30 @@ if (typeof document !== 'undefined') {
       <p>Think about whether this fits the conversation you had in mind. Another conversation might bring out a different pattern.</p>
       <p>${result.invitation}</p>
       <p><a href="${communityUrl}" target="_blank" rel="noopener">Visit The People Leaders’ Room</a></p>
-      <div class="lead">
-        <h2>Get five practical emails from Nicola</h2>
-        ${endpoint ? `<p>I’ll share practical ways to prepare, say what needs saying and follow through. You can unsubscribe at any time.</p>
-        <form><label for="email">Email address</label>
-          <input class="email" type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
-          <button type="submit">Send me the five emails</button>
-        </form>` : '<p>Email sign-up will be available when the welcome sequence is connected.</p>'}
-        <p role="status" id="status"></p>
-      </div>
+      <p>You’re signed up. Look out for the first email from Nicola.</p>
       <button type="button" class="secondary" id="restart">Take the quiz again</button>`);
-    const restart = screen.querySelector('#restart');
-    restart.onclick = () => { current = 0; answers.length = 0; start(true); };
+    screen.querySelector('#restart').onclick = () => {
+      current = 0;
+      answers.length = 0;
+      start(true);
+    };
+  }
+
+  function renderSignup(tag) {
+    const endpoint = window.quizConfig?.webhookUrl;
+    show(`
+      <h1 id="heading" tabindex="-1">Your result is ready</h1>
+      ${endpoint ? `
+        <p>Sign up to see your result and get five practical emails from Nicola about what to do next. You can unsubscribe at any time.</p>
+        <form>
+          <label for="email">Email address</label>
+          <input class="email" type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
+          <button type="submit">Sign up and see my result</button>
+        </form>` : '<p>Sign-up is temporarily unavailable. Please try again later.</p>'}
+      <p role="status" id="status"></p>
+      <button class="secondary" id="back" type="button">Back</button>`);
+    const back = screen.querySelector('#back');
+    back.onclick = renderQuestion;
     const form = screen.querySelector('form');
     if (!form) return;
     const status = screen.querySelector('#status');
@@ -158,7 +169,7 @@ if (typeof document !== 'undefined') {
       event.preventDefault();
       const email = new FormData(form).get('email').trim();
       submit.disabled = true;
-      restart.disabled = true;
+      back.disabled = true;
       status.textContent = 'Signing you up…';
       try {
         const response = await fetch(endpoint, {
@@ -167,13 +178,12 @@ if (typeof document !== 'undefined') {
           signal: AbortSignal.timeout(12000)
         });
         if (!response.ok || (await response.json()).ok !== true) throw new Error('Sign-up failed');
-        form.remove();
-        status.textContent = 'You’re signed up. Look out for the first email from Nicola.';
+        renderResult(tag);
       } catch {
         status.textContent = 'We couldn’t confirm your sign-up. Please try again.';
         submit.disabled = false;
       } finally {
-        restart.disabled = false;
+        back.disabled = false;
       }
     };
   }
