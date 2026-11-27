@@ -25,3 +25,4 @@ input[type=radio]{margin-top:.36em;accent-color:#006864;flex:none}
 .lead{border-top:1px solid #ddd9cc;margin:1.65em 0 1em;padding-top:.5em}
 .email{display:block;width:min(100%,400px);padding:.6em;margin:.35em 0 .8em;border:1px solid #737c73;border-radius:6px;background:white}
 a{color:#006864}
+.privacy{font-size:.9rem;color:#4b5a57;margin-top:.25em}

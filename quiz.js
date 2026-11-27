@@ -25,6 +25,7 @@ const questions = [
     'A clear structure so I know what to say and in what order']
 ];
 const communityUrl = 'https://www.skool.com/the-people-leaders-room-5009/about';
+const privacyUrl = 'https://thepeoplementor.co.uk/privacy-policy/';
 const results = {
   overthinker: {
     name: 'The Overthinker',
@@ -156,7 +157,8 @@ if (typeof document !== 'undefined') {
           <label for="email">Email address</label>
           <input class="email" type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
           <button type="submit">Sign up and see my result</button>
-        </form>` : '<p>Sign-up is temporarily unavailable. Please try again later.</p>'}
+        </form>
+        <p class="privacy">Your email is not shared with your employer. You can read how I look after your details in my <a href="${privacyUrl}" target="_blank" rel="noopener">privacy policy</a>.</p>` : '<p>Sign-up is temporarily unavailable. Please try again later.</p>'}
       <p role="status" id="status"></p>
       <button class="secondary" id="back" type="button">Back</button>`);
     const back = screen.querySelector('#back');
