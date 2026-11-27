@@ -54,7 +54,7 @@ const results = {
     headline: 'You raise it, then soften the message when it gets uncomfortable.',
     reflection: [
       'You get as far as raising the issue. Then their face changes or their voice tightens, and you hear yourself saying, “It’s probably fine.” You both leave feeling a bit relieved. A week later, the same thing happens and you realise they may never have understood what you were asking them to change.',
-      'It makes sense to care how your feedback lands. You can give someone a moment to take it in, listen to what they say and still come back to the point you need to make. They deserve to know what you’re asking of them.',
+      'It makes sense to care how your feedback comes across. You can give someone a moment to take it in, listen to what they say and still come back to the point you need to make. They deserve to know what you’re asking of them.',
       'If you feel yourself backing away from the issue, pause. Ask how they see it. Then bring the conversation back to the change you need to agree together.'
     ],
     action: 'Before you go in, write down the one thing you need to see change. For example, “I need the handover notes completed before the next shift starts.” Keep that sentence in front of you so you can come back to it when the conversation gets uncomfortable.',
